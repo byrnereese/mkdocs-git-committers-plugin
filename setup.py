@@ -5,7 +5,7 @@ setup(
     name='mkdocs-git-committers-plugin',
     version='0.1.0',
     description='An MkDocs plugin to create a list of contributors on the page',
-    long_description='The pdf-export plugin will seed the template context with a list of github committers',
+    long_description='The git-committers plugin will seed the template context with a list of github committers',
     keywords='mkdocs pdf github',
     url='https://github.com/byrnereese/mkdocs-git-committers-plugin/',
     author='Byrne Reese',
