@@ -19,15 +19,33 @@ plugins:
 
 More information about plugins in the [MkDocs documentation][mkdocs-plugins].
 
-## Usage
+## Config
 
 * `repository` - The name of the repository, e.g. 'byrnereese/mkdocs-git-committers-plugin'
 * `branch` - The name of the branch to pull commits from, e.g. 'master' (default)
 * `token` - A github Personal Access Token to avoid github rate limits
 
-## Example
+## Usage
 
-### Template Code
+### Display Last Commit
+
+In addition to displaying a list of committers for a file, you can also access all the information relating to the [last commit](https://developer.github.com/v3/repos/commits/) of the file. This is useful for example if you want to display the date the file was last updated.
+
+#### Template Code
+
+```django hljs
+<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+  <li class="last-updated-holder displayDate loading">
+    <span class="last-updated-text">Last updated:</span>
+    <time role="presentation" datetime="2018-10-25T00:00:00.000Z" data-article-date-source="ms.date">{% if last_commit %}{{ last_commit.commit.committer.dat\
+e.strftime('%Y-%m-%d') }}{% endif %}</time>
+  </li>
+</ul>
+```
+
+### Display List of Committers
+
+#### Template Code
 
 ```django hljs
 {% block footer %}
@@ -44,7 +62,7 @@ More information about plugins in the [MkDocs documentation][mkdocs-plugins].
 {% endblock %}
 ```
 
-### CSS
+#### CSS
 
 ```css
 .metadata{
@@ -76,7 +94,7 @@ body[dir=rtl] .metadata.page-metadata .contributors-text{
 }
 ```
 
-### Javascript
+#### Javascript
 
 ```javascript
     $( '.contributors img[data-src]' ).each( function() {
