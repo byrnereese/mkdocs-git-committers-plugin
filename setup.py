@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='mkdocs-git-committers-plugin',
-    version='0.1.1',
+    version='0.1.2',
     description='An MkDocs plugin to create a list of contributors on the page',
     long_description='The git-committers plugin will seed the template context with a list of github committers',
     keywords='mkdocs pdf github',
@@ -13,7 +13,7 @@ setup(
     license='MIT',
     python_requires='>=2.7',
     install_requires=[
-        'PyGithub',
+        'PyGithub>=1.43',
         'mkdocs>=0.17'
     ],
     classifiers=[
