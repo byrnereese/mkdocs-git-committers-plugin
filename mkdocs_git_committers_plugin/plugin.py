@@ -34,17 +34,6 @@ class GitCommittersPlugin(BasePlugin):
         self.branch = self.config['branch']
         return config
 
-    def find_file_name(self, needle, haystack):
-        for page in haystack:
-            for name,path in page.items():
-                if isinstance(path,list):
-                    found = self.find_file_name( needle, path )
-                    if found:
-                        return found
-                else:
-                    if name == needle:
-                        return path
-
     def get_last_commit(self, path):
         since = datetime.now() - timedelta(days=1)
         commits = self.repo.get_commits(path=path, sha=self.branch)
@@ -73,15 +62,12 @@ class GitCommittersPlugin(BasePlugin):
         if not self.enabled:
             return context
         start = timer()
-        file_name = self.find_file_name(page.title, context['config']['nav'])
-        if file_name:
-            git_path = self.config['docs_path'] + file_name
-            if file_name:
-                committers = self.get_committers(git_path)
-                if committers:
-                    context['committers'] = committers
+        git_path = self.config['docs_path'] + page.file.src_path
+        committers = self.get_committers(git_path)
+        if committers:
+            context['committers'] = committers
 
-            context['last_commit'] = self.get_last_commit(git_path)
+        context['last_commit'] = self.get_last_commit(git_path)
         end = timer()
         self.total_time += (end - start)
 
