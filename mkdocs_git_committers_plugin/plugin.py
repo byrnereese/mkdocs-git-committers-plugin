@@ -12,10 +12,6 @@ from github import Github
 
 class GitCommittersPlugin(BasePlugin):
 
-#    config_scheme = (
-#        ('branch_url', config_options.Type(mkdocs_utils.string_types, default=''))
-#    )
-
     config_scheme = (
         ('repository', config_options.Type(mkdocs_utils.string_types, default='')),
         ('branch', config_options.Type(mkdocs_utils.string_types, default='master')),
@@ -24,14 +20,18 @@ class GitCommittersPlugin(BasePlugin):
     )
 
     def __init__(self):
-        self.enabled = True
+        self.enabled = False
         self.total_time = 0
         self.branch = 'master'
 
     def on_config(self, config):
-        self.github = Github( self.config['token'] )
-        self.repo = self.github.get_repo( self.config['repository'] )
-        self.branch = self.config['branch']
+        if self.config['token'] and self.config['token'] != '':
+            self.enabled = True
+            self.github = Github( self.config['token'] )
+            self.repo = self.github.get_repo( self.config['repository'] )
+            self.branch = self.config['branch']
+        else:
+            print("git-committers plugin DISABLED: no git token provided")
         return config
 
     def get_last_commit(self, path):

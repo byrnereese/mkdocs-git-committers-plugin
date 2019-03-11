@@ -25,6 +25,18 @@ More information about plugins in the [MkDocs documentation][mkdocs-plugins].
 * `branch` - The name of the branch to pull commits from, e.g. 'master' (default)
 * `token` - A github Personal Access Token to avoid github rate limits
 
+Tip: You can specify the GitHub token via an environment variable in the following way:
+
+```yaml
+plugins:
+  - git-committers:
+      repository: johndoe/my-docs
+      branch: master
+      token: !!python/object/apply:os.getenv ["MKDOCS_GIT_COMMITTERS_APIKEY"]
+```
+
+**If no token is present, the plugin will be disabled automatically. This can be helpful as when actively working on documentation, the git-committers plugin can dramatically slow down page rendering times.**
+
 ## Usage
 
 ### Display Last Commit
