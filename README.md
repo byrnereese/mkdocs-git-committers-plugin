@@ -35,6 +35,8 @@ plugins:
       token: !!python/object/apply:os.getenv ["MKDOCS_GIT_COMMITTERS_APIKEY"]
 ```
 
+If the token is not set in `mkdocs.yml` it will be read from the `MKDOCS_GIT_COMMITTERS_APIKEY` environment variable.
+
 **If no token is present, the plugin will be disabled automatically. This can be helpful as when actively working on documentation, the git-committers plugin can dramatically slow down page rendering times.**
 
 ## Usage

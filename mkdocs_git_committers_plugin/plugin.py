@@ -25,6 +25,8 @@ class GitCommittersPlugin(BasePlugin):
         self.branch = 'master'
 
     def on_config(self, config):
+        if 'MKDOCS_GIT_COMMITTERS_APIKEY' in os.environ:
+            self.config['token'] = os.environ['MKDOCS_GIT_COMMITTERS_APIKEY']
         if self.config['token'] and self.config['token'] != '':
             self.enabled = True
             self.github = Github( self.config['token'] )
