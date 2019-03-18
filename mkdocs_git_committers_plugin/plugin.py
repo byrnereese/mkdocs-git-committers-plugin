@@ -48,7 +48,7 @@ class GitCommittersPlugin(BasePlugin):
         commits = self.repo.get_commits( path=path, sha=self.branch )
         for c in commits:
             if c.committer:
-                if c.committer.login not in seen_committers and c.committer.login <> 'web-flow':
+                if c.committer.login not in seen_committers and c.committer.login != 'web-flow':
                     seen_committers.append( c.committer.login )
                     unique_committers.append({
                         "name": c.committer.name,
