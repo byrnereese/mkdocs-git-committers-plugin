@@ -21,6 +21,7 @@ More information about plugins in the [MkDocs documentation][mkdocs-plugins].
 
 ## Config
 
+* `enterprise_hostname` - The enterprise hostname of your github account (Github Enterprise customers only).
 * `repository` - The name of the repository, e.g. 'byrnereese/mkdocs-git-committers-plugin'
 * `branch` - The name of the branch to pull commits from, e.g. 'master' (default)
 * `token` - A github Personal Access Token to avoid github rate limits
@@ -124,3 +125,10 @@ More information about blocks [here][mkdocs-block].
 [mkdocs-plugins]: http://www.mkdocs.org/user-guide/plugins/
 [mkdocs-template]: https://www.mkdocs.org/user-guide/custom-themes/#template-variables
 [mkdocs-block]: https://www.mkdocs.org/user-guide/styling-your-docs/#overriding-template-blocks
+
+## Acknowledgements
+
+Thank you to the following contributors:
+
+* Nathan Hernandez
+* Chris Northwood
