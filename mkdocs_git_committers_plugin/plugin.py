@@ -13,6 +13,7 @@ from github import Github
 class GitCommittersPlugin(BasePlugin):
 
     config_scheme = (
+        ('enterprise_hostname', config_options.Type(mkdocs_utils.string_types, default='')),
         ('repository', config_options.Type(mkdocs_utils.string_types, default='')),
         ('branch', config_options.Type(mkdocs_utils.string_types, default='master')),
         ('docs_path', config_options.Type(mkdocs_utils.string_types, default='docs/')),
@@ -29,7 +30,10 @@ class GitCommittersPlugin(BasePlugin):
             self.config['token'] = os.environ['MKDOCS_GIT_COMMITTERS_APIKEY']
         if self.config['token'] and self.config['token'] != '':
             self.enabled = True
-            self.github = Github( self.config['token'] )
+            if self.config['enterprise_hostname'] and self.config['enterprise_hostname'] != '':
+                self.github = Github( base_url="https://" + self.config['enterprise_hostname'] + "/api/v3", login_or_token=self.config['token'] )
+            else:
+                self.github = Github( self.config['token'] )
             self.repo = self.github.get_repo( self.config['repository'] )
             self.branch = self.config['branch']
         else:
@@ -55,7 +59,7 @@ class GitCommittersPlugin(BasePlugin):
                         "login": c.committer.login,
                         "avatar": c.committer.avatar_url,
                         "last_commit": c.committer.avatar_url,
-                        "repos": 'http://github.com/' + c.committer.login
+                        "repos": (self.config['enterprise_hostname'] or 'https://github.com/') + c.committer.login
                     })
         return unique_committers
                 
