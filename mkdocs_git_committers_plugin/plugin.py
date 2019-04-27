@@ -59,7 +59,7 @@ class GitCommittersPlugin(BasePlugin):
                         "login": c.committer.login,
                         "avatar": c.committer.avatar_url,
                         "last_commit": c.committer.avatar_url,
-                        "repos": (self.config['enterprise_hostname'] or 'https://github.com/') + c.committer.login
+                        "repos": 'https://' + (self.config['enterprise_hostname'] or 'github.com') + '/' + c.committer.login
                     })
         return unique_committers
                 
