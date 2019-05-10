@@ -118,6 +118,10 @@ body[dir=rtl] .metadata.page-metadata .contributors-text{
     });
 ```
 
+#### `contributor.svg`
+
+Add [contributor.svg](contributor.svg) to your `img/` folder
+
 More information about templates [here][mkdocs-template].
 
 More information about blocks [here][mkdocs-block].
