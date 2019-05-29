@@ -43,8 +43,10 @@ class GitCommittersPlugin(BasePlugin):
     def get_last_commit(self, path):
         since = datetime.now() - timedelta(days=1)
         commits = self.repo.get_commits(path=path, sha=self.branch)
-        last = commits[0]
-        return last
+        if commits.totalCount > 0:
+            return commits[0]
+        else:
+            return None
                     
     def get_committers(self, path):
         seen_committers = []
