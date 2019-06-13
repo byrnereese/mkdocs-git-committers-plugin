@@ -53,15 +53,14 @@ class GitCommittersPlugin(BasePlugin):
         unique_committers = []
         commits = self.repo.get_commits( path=path, sha=self.branch )
         for c in commits:
-            if c.committer:
-                if c.committer.login not in seen_committers and c.committer.login != 'web-flow':
-                    seen_committers.append( c.committer.login )
+            if c.author:
+                if c.author.login not in seen_committers and c.author.login != 'web-flow':
+                    seen_committers.append( c.author.login )
                     unique_committers.append({
-                        "name": c.committer.name,
-                        "login": c.committer.login,
-                        "avatar": c.committer.avatar_url,
-                        "last_commit": c.committer.avatar_url,
-                        "repos": 'https://' + (self.config['enterprise_hostname'] or 'github.com') + '/' + c.committer.login
+                        "name": c.author.name,
+                        "login": c.author.login,
+                        "avatar": c.author.avatar_url,
+                        "repos": 'https://' + (self.config['enterprise_hostname'] or 'github.com') + '/' + c.author.login
                     })
         return unique_committers
                 
