@@ -36,19 +36,12 @@ class GitCommittersPlugin(BasePlugin):
                 self.github = Github( self.config['token'] )
             self.repo = self.github.get_repo( self.config['repository'] )
             self.branch = self.config['branch']
+            print("git-committers plugin: fetching git commits info...")
         else:
             print("git-committers plugin DISABLED: no git token provided")
         return config
 
-    def get_last_commit(self, path):
-        since = datetime.now() - timedelta(days=1)
-        commits = self.repo.get_commits(path=path, sha=self.branch)
-        if commits.totalCount > 0:
-            return commits[0]
-        else:
-            return None
-                    
-    def get_committers(self, path):
+    def get_commits(self, path):
         seen_committers = []
         unique_committers = []
         commits = self.repo.get_commits( path=path, sha=self.branch )
@@ -62,7 +55,10 @@ class GitCommittersPlugin(BasePlugin):
                         "avatar": c.author.avatar_url,
                         "repos": 'https://' + (self.config['enterprise_hostname'] or 'github.com') + '/' + c.author.login
                     })
-        return unique_committers
+        if commits.totalCount > 0:
+            return unique_committers, commits[0]
+        else:
+            return None, None
                 
     def on_page_context(self, context, page, config, nav):
         context['committers'] = []
@@ -70,11 +66,12 @@ class GitCommittersPlugin(BasePlugin):
             return context
         start = timer()
         git_path = self.config['docs_path'] + page.file.src_path
-        committers = self.get_committers(git_path)
+        committers, last_commit = self.get_commits(git_path)
         if committers:
             context['committers'] = committers
+        if last_commit:
+            context['last_commit'] = last_commit
 
-        context['last_commit'] = self.get_last_commit(git_path)
         end = timer()
         self.total_time += (end - start)
 
