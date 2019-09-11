@@ -1,2 +1,5 @@
 mkdocs==1.0.3
-PyGithub==1.43
+gitpython
+requests
+json
+hashlib

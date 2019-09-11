@@ -38,13 +38,15 @@ plugins:
 
 If the token is not set in `mkdocs.yml` it will be read from the `MKDOCS_GIT_COMMITTERS_APIKEY` environment variable.
 
-**If no token is present, the plugin will be disabled automatically. This can be helpful as when actively working on documentation, the git-committers plugin can dramatically slow down page rendering times.**
+**If no token is present, the plugin will determine information with local git repository information only.**
 
 ## Usage
 
 ### Display Last Commit
 
-In addition to displaying a list of committers for a file, you can also access all the information relating to the [last commit](https://developer.github.com/v3/repos/commits/) of the file. This is useful for example if you want to display the date the file was last updated.
+In addition to displaying a list of committers for a file, you can also access
+the last commit date for a page if you want to display the date the file was
+last updated.
 
 #### Template Code
 
@@ -52,13 +54,20 @@ In addition to displaying a list of committers for a file, you can also access a
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
   <li class="last-updated-holder displayDate loading">
     <span class="last-updated-text">Last updated:</span>
-    <time role="presentation" datetime="2018-10-25T00:00:00.000Z" data-article-date-source="ms.date">{% if last_commit %}{{ last_commit.commit.committer.dat\
-e.strftime('%Y-%m-%d') }}{% endif %}</time>
+    <time role="presentation" datetime="2018-10-25T00:00:00.000Z" data-article-date-source="ms.date">{% if last_commit_date %}{{ last_commit_date }}{% endif %}</time>
   </li>
 </ul>
 ```
 
 ### Display List of Committers
+
+#### Avatar
+
+If the GitHub token is configured, a GitHub API request is made to retrieve the
+avatar from GitHub. If not, the avatar attribute is populated with gravatar
+identicon with an MD5 hash on the email address. If the author has configured
+gravatar for this email address, the avatar will show properly, otherwise a
+random but fixed gravatar identicon is generated.
 
 #### Template Code
 
@@ -69,7 +78,7 @@ e.strftime('%Y-%m-%d') }}{% endif %}</time>
     <span class="contributors-text">Contributors</span>
     <ul class="contributors" data-bi-name="contributors">
       {%- for user in committers -%}
-      <li><a href="{{ user.repos }}" title="{{ user.name }}" data-bi-name="contributorprofile"><img src="../img/contributor.svg" data-src="{{ user.avatar }}?size=32" alt="{{ user.name }}"></a></li>
+      <li><a href="{{ user.repos }}" title="{{ user.name }}" data-bi-name="contributorprofile"><img src="../img/contributor.svg" data-src="{{ user.avatar }}" alt="{{ user.name }}"></a></li>
       {%- endfor -%}
     </ul>
   </li>

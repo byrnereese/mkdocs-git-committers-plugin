@@ -13,8 +13,11 @@ setup(
     license='MIT',
     python_requires='>=2.7',
     install_requires=[
-        'PyGithub>=1.43',
-        'mkdocs>=0.17'
+        'mkdocs>=0.17',
+        'gitpython',
+        'requests',
+        'json',
+        'hashlib'
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
