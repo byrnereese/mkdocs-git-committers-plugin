@@ -15,9 +15,7 @@ setup(
     install_requires=[
         'mkdocs>=0.17',
         'gitpython',
-        'requests',
-        'json',
-        'hashlib'
+        'requests'
     ],
     classifiers=[
         'Development Status :: 4 - Beta',

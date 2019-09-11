@@ -1,5 +1,3 @@
 mkdocs==1.0.3
 gitpython
 requests
-json
-hashlib
