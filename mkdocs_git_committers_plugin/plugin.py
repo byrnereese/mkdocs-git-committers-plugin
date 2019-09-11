@@ -49,14 +49,20 @@ class GitCommittersPlugin(BasePlugin):
             return None
         r = requests.post(url=self.apiendpoint, json=query, headers=self.auth_header)
         res = r.json()
-        if res['data']['search']['edges']:
-            info = res['data']['search']['edges'][0]['node']
-            return {'login':info['login'], \
-                    'name':info['name'], \
-                    'email':info['email'].lower() if info['email'] else email, \
-                    'url':info['url'], \
-                    'repos':info['url'], \
-                    'avatar':info['url']+".png?size=24" }
+        if r.status_code == 200:
+            if res['data']:
+                if res['data']['search']['edges']:
+                    info = res['data']['search']['edges'][0]['node']
+                    return {'login':info['login'], \
+                            'name':info['name'], \
+                            'url':info['url'], \
+                            'repos':info['url'], \
+                            'avatar':info['url']+".png?size=24" }
+                else:
+                    return None
+            else:
+                print("Error: " + res['errors'][0]['message'])
+                return None
         else:
             return None
 
@@ -64,7 +70,7 @@ class GitCommittersPlugin(BasePlugin):
         unique_authors = []
         seen_authors = []
         last_commit_date = ""
-        #print("get_git_info for " + path)
+        # print("get_git_info for " + path)
         for c in Commit.iter_items(self.localrepo, self.localrepo.head, path):
             if not last_commit_date:
                 # Use the last commit and get the date
@@ -75,23 +81,21 @@ class GitCommittersPlugin(BasePlugin):
                 self.authors[c.author.email] = {}
                 # First, search by email
                 info = self.get_gituser_info( c.author.email, \
-                    { 'query': '{ search(type: USER, query: "in:email ' + c.author.email + '", first: 1) { edges { node { ... on User { login name email url } } } } }' })
+                    { 'query': '{ search(type: USER, query: "in:email ' + c.author.email + '", first: 1) { edges { node { ... on User { login name url } } } } }' })
                 if info:
                     self.authors[c.author.email] = info
                 else:
                     # If not found, search by name
                     info = self.get_gituser_info( c.author.name, \
-                        { 'query': '{ search(type: USER, query: "in:name ' + c.author.name + '", first: 1) { edges { node { ... on User { login name email url } } } } }' })
+                        { 'query': '{ search(type: USER, query: "in:name ' + c.author.name + '", first: 1) { edges { node { ... on User { login name url } } } } }' })
                     if info:
                         self.authors[c.author.email] = info
                     else:
                         # If not found, use local git info only and gravatar avatar
                         self.authors[c.author.email] = { 'login':'', \
                             'name':c.author.name if c.author.name else '', \
-                            'email':c.author.email if c.author.email else '', \
                             'url':'', \
                             'avatar':'https://www.gravatar.com/avatar/' + hashlib.md5(c.author.email.encode('utf-8')).hexdigest() + '?d=identicon' }
-                        print("MD5: " + self.authors[c.author.email]['avatar'])
             if c.author.email not in seen_authors:
                 seen_authors.append(c.author.email)
                 unique_authors.append(self.authors[c.author.email])
