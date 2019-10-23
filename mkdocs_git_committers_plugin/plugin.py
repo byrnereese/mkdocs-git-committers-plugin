@@ -50,7 +50,7 @@ class GitCommittersPlugin(BasePlugin):
         r = requests.post(url=self.apiendpoint, json=query, headers=self.auth_header)
         res = r.json()
         if r.status_code == 200:
-            if res['data']:
+            if res.get('data'):
                 if res['data']['search']['edges']:
                     info = res['data']['search']['edges'][0]['node']
                     return {'login':info['login'], \
