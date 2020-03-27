@@ -11,7 +11,7 @@ setup(
     author='Byrne Reese',
     author_email='byrne@majordojo.com',
     license='MIT',
-    python_requires='>=2.7',
+    python_requires='>=3.5',
     install_requires=[
         'PyGithub>=1.43',
         'mkdocs>=0.17'
