@@ -52,8 +52,7 @@ In addition to displaying a list of committers for a file, you can also access a
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
   <li class="last-updated-holder displayDate loading">
     <span class="last-updated-text">Last updated:</span>
-    <time role="presentation" datetime="2018-10-25T00:00:00.000Z" data-article-date-source="ms.date">{% if last_commit %}{{ last_commit.commit.committer.dat\
-e.strftime('%Y-%m-%d') }}{% endif %}</time>
+    <time role="presentation" datetime="2018-10-25T00:00:00.000Z" data-article-date-source="ms.date">{% if last_commit %}{{ last_commit.commit.committer.date.strftime('%Y-%m-%d') }}{% endif %}</time>
   </li>
 </ul>
 ```
