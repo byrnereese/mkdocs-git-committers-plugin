@@ -1,3 +1,3 @@
 # Git Committers Reference Test
 
-Welcome to the test page for the API Quick Reference generator. View the [quick reference](./quick-reference/).
+Welcome to the test page for the Mkdocs Git Committers plugin. This mini-site serves as a reference for how to implement a committers list for your mkdocs powered site. 

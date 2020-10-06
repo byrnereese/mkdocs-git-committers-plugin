@@ -1,6 +1,5 @@
-site_name: RingCentral Git Committers Test
+site_name: Mkdocs Git Committers Plugin Test
 site_url: https://github.com/byrnereese/mkdocs-git-committers-plguin
-site_favicon: favicon.ico
 repo_url: https://github.com/byrnereese/mkdocs-git-committers-plugin
 edit_uri: tree/master/docs
 docs_dir: docs
