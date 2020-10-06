@@ -65,6 +65,17 @@ class GitCommittersPlugin(BasePlugin):
                 })
         return unique_committers
 
+    def get_github_user(self, username):
+        user = self.github.get_user( username )
+        contrib = {
+            "name": user.name,
+            "login": user.login,
+            "avatar": user.avatar_url,
+            "last_commit": user.avatar_url,
+            "repos": 'https://' + (self.config['enterprise_hostname'] or 'github.com') + '/' + user.login
+            }
+        return contrib
+
     def on_page_context(self, context, page, config, nav):
         context['committers'] = []
         if not self.enabled:
@@ -72,6 +83,12 @@ class GitCommittersPlugin(BasePlugin):
         start = timer()
         git_path = self.config['docs_path'] + page.file.src_path
         committers = self.get_committers(git_path)
+        if 'contributors' in page.meta:
+            users = page.meta['contributors'].split(',')
+            for u in users:
+                c = self.get_github_user( u )
+                committers.append( c )
+
         if committers:
             context['committers'] = committers
 
