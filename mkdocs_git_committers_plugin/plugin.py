@@ -29,6 +29,7 @@ class GitCommittersPlugin(BasePlugin):
         if 'MKDOCS_GIT_COMMITTERS_APIKEY' in os.environ:
             self.config['token'] = os.environ['MKDOCS_GIT_COMMITTERS_APIKEY']
         if self.config['token'] and self.config['token'] != '':
+            print("INFO    -  git-committers plugin ENABLED")
             self.enabled = True
             if self.config['enterprise_hostname'] and self.config['enterprise_hostname'] != '':
                 self.github = Github( base_url="https://" + self.config['enterprise_hostname'] + "/api/v3", login_or_token=self.config['token'] )
@@ -37,7 +38,7 @@ class GitCommittersPlugin(BasePlugin):
             self.repo = self.github.get_repo( self.config['repository'] )
             self.branch = self.config['branch']
         else:
-            print("git-committers plugin DISABLED: no git token provided")
+            print("WARN    -  git-committers plugin DISABLED: no git token provided")
         return config
 
     def get_last_commit(self, path):
@@ -60,8 +61,7 @@ class GitCommittersPlugin(BasePlugin):
                     "login": c.author.login,
                     "avatar": c.author.avatar_url,
                     "last_commit": c.author.avatar_url,
-                    "repos": 'https://' + (self.config['enterprise_hostname'] or 'github.com') + '/\
-' + c.author.login
+                    "repos": 'https://' + (self.config['enterprise_hostname'] or 'github.com') + '/' + c.author.login
                 })
         return unique_committers
 

@@ -106,6 +106,13 @@ body[dir=rtl] .metadata.page-metadata .contributors-text{
     margin:0;
     padding:0
 }
+.page-metadata .contributors li img{
+    border-radius:100%;
+    height:16px;
+    margin-top:-3px;
+    overflow:hidden;
+    width:16px
+}
 ```
 
 #### Javascript

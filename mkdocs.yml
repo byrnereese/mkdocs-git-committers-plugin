@@ -1,5 +1,5 @@
 site_name: Mkdocs Git Committers Plugin Test
-site_url: https://github.com/byrnereese/mkdocs-git-committers-plguin
+site_url: https://github.com/byrnereese/mkdocs-git-committers-plugin
 repo_url: https://github.com/byrnereese/mkdocs-git-committers-plugin
 edit_uri: tree/master/docs
 docs_dir: docs
