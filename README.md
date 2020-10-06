@@ -46,6 +46,16 @@ If the token is not set in `mkdocs.yml` it will be read from the `MKDOCS_GIT_COM
 
 In addition to displaying a list of committers for a file, you can also access all the information relating to the [last commit](https://developer.github.com/v3/repos/commits/) of the file. This is useful for example if you want to display the date the file was last updated.
 
+### Manually Adding Contributors
+
+There are circumstances where you would like to credit a contributor, but their github username is not in the commit history. To force a contributor to appear, use page meta:
+
+```yaml
+contributors: byrnereese,grokify
+
+# My page title
+```
+
 #### Template Code
 
 ```django hljs
