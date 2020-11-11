@@ -38,7 +38,7 @@ class GitCommittersPlugin(BasePlugin):
             self.repo = self.github.get_repo( self.config['repository'] )
             self.branch = self.config['branch']
         else:
-            print("WARN    -  git-committers plugin DISABLED: no git token provided")
+            print("WARNING -  git-committers plugin DISABLED: no git token provided")
         return config
 
     def get_last_commit(self, path):
@@ -86,8 +86,11 @@ class GitCommittersPlugin(BasePlugin):
         if 'contributors' in page.meta:
             users = page.meta['contributors'].split(',')
             for u in users:
-                c = self.get_github_user( u )
-                committers.append( c )
+                try: 
+                    c = self.get_github_user( u )
+                    committers.append( c )
+                except:
+                    print("WARNING - could not find github user " + u)
 
         if committers:
             context['committers'] = committers
