@@ -62,6 +62,7 @@ class GitCommittersPlugin(BasePlugin):
                 unique_committers.append({
                     "name": c.author.name,
                     "login": c.author.login,
+                    "url": f"https://github.com/{c.author.login}",
                     "avatar": c.author.avatar_url,
                     "last_commit": c.author.avatar_url,
                     "repos": 'https://' + (self.config['enterprise_hostname'] or 'github.com') + '/' + c.author.login
@@ -73,6 +74,7 @@ class GitCommittersPlugin(BasePlugin):
         contrib = {
             "name": user.name,
             "login": user.login,
+            "url": f"https://github.com/{user.login}",
             "avatar": user.avatar_url,
             "last_commit": user.avatar_url,
             "repos": 'https://' + (self.config['enterprise_hostname'] or 'github.com') + '/' + user.login
