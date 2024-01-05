@@ -10,6 +10,7 @@ from mkdocs.config import config_options, Config
 from mkdocs.plugins import BasePlugin
 
 from github import Github
+from github import Auth
 
 LOG = logging.getLogger("mkdocs.plugins." + __name__)
 
@@ -34,10 +35,11 @@ class GitCommittersPlugin(BasePlugin):
         if self.config['token'] and self.config['token'] != '':
             LOG.info("git-committers plugin ENABLED")
             self.enabled = True
+            auth = Auth.Token(self.config['token'])
             if self.config['enterprise_hostname'] and self.config['enterprise_hostname'] != '':
-                self.github = Github( base_url="https://" + self.config['enterprise_hostname'] + "/api/v3", login_or_token=self.config['token'] )
+                self.github = Github( base_url="https://" + self.config['enterprise_hostname'] + "/api/v3", auth=auth )
             else:
-                self.github = Github( self.config['token'] )
+                self.github = Github( auth=auth )
             self.repo = self.github.get_repo( self.config['repository'] )
             self.branch = self.config['branch']
         else:
@@ -62,10 +64,10 @@ class GitCommittersPlugin(BasePlugin):
                 unique_committers.append({
                     "name": c.author.name,
                     "login": c.author.login,
-                    "url": f"https://github.com/{c.author.login}",
+                    "url": f"https://{self.config['enterprise_hostname'] or 'github.com'}/{c.author.login}",
                     "avatar": c.author.avatar_url,
                     "last_commit": c.author.avatar_url,
-                    "repos": 'https://' + (self.config['enterprise_hostname'] or 'github.com') + '/' + c.author.login
+                    "repos": f"https://{self.config['enterprise_hostname'] or 'github.com'}/{c.author.login}"
                 })
         return unique_committers
 
@@ -74,10 +76,10 @@ class GitCommittersPlugin(BasePlugin):
         contrib = {
             "name": user.name,
             "login": user.login,
-            "url": f"https://github.com/{user.login}",
+            "url": f"https://{self.config['enterprise_hostname'] or 'github.com'}/{user.login}",
             "avatar": user.avatar_url,
             "last_commit": user.avatar_url,
-            "repos": 'https://' + (self.config['enterprise_hostname'] or 'github.com') + '/' + user.login
+            "repos": f"https://{self.config['enterprise_hostname'] or 'github.com'}/{user.login}"
             }
         return contrib
 
