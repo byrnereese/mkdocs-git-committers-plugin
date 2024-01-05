@@ -61,17 +61,13 @@ class GitCommittersPlugin(BasePlugin):
         for c in commits:
             if c.author is not None and c.author.login is not None and c.author.login not in seen_committers:
                 seen_committers.append( c.author.login )
-                if self.config['enterprise_hostname'] and self.config['enterprise_hostname'] != '':
-                    author_url = f"https://{self.config['enterprise_hostname']}/{c.author.login}"
-                else:
-                    author_url = f"https://github.com/{c.author.login}"
                 unique_committers.append({
                     "name": c.author.name,
                     "login": c.author.login,
-                    "url": author_url,
+                    "url": f"https://{self.config['enterprise_hostname'] or 'github.com'}/{c.author.login}",
                     "avatar": c.author.avatar_url,
                     "last_commit": c.author.avatar_url,
-                    "repos": 'https://' + (self.config['enterprise_hostname'] or 'github.com') + '/' + c.author.login
+                    "repos": f"https://{self.config['enterprise_hostname'] or 'github.com'}/{c.author.login}"
                 })
         return unique_committers
 
@@ -80,10 +76,10 @@ class GitCommittersPlugin(BasePlugin):
         contrib = {
             "name": user.name,
             "login": user.login,
-            "url": f"https://github.com/{user.login}",
+            "url": f"https://{self.config['enterprise_hostname'] or 'github.com'}/{user.login}",
             "avatar": user.avatar_url,
             "last_commit": user.avatar_url,
-            "repos": 'https://' + (self.config['enterprise_hostname'] or 'github.com') + '/' + user.login
+            "repos": f"https://{self.config['enterprise_hostname'] or 'github.com'}/{user.login}"
             }
         return contrib
 
